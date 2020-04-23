@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-BearBikes.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-BearBikes.iml" group="BearBikes" />
       <module fileurl="file://$PROJECT_DIR$/BearBikes.iml" filepath="$PROJECT_DIR$/BearBikes.iml" group="BearBikes" />
+      <module fileurl="file://$PROJECT_DIR$/app/BearBikes-app.iml" filepath="$PROJECT_DIR$/app/BearBikes-app.iml" group="BearBikes/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="BearBikes/app" />
     </modules>
   </component>
