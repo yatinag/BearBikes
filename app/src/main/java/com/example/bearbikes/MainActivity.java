@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("55734871775-nio5os3dit5p6r1l4t9qs6jlrb7h1o4s.apps.googleusercontent.com")
+                .requestIdToken("55734871775-b97uooe6hvg99be1qoubmgnbpohqt4p4.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

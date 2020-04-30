@@ -13,20 +13,7 @@
           "package_name": "com.example.bearbikes"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "55734871775-6oqvo2nsl9cellijmu1n1ni9uo1ml837.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.bearbikes",
-            "certificate_hash": "22306d7a9ef6f7e6b38464942ebf515c14f66058"
-          }
-        },
-        {
-          "client_id": "55734871775-psaqshnec2clos9cp3cpsdn1h9dhvsp2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyCbMO-9IDbclq5dVSo53mmxrAfIdIpw_Zc"
@@ -36,8 +23,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "55734871775-psaqshnec2clos9cp3cpsdn1h9dhvsp2.apps.googleusercontent.com",
+              "client_id": "55734871775-b97uooe6hvg99be1qoubmgnbpohqt4p4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "55734871775-7h6e20ieuov5t8i7j7bj69rqved1m9dl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "MDB-Bear-Bikes"
+              }
             }
           ]
         }
