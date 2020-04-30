@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -47,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         signInButton = findViewById(R.id.signInBtn);
+
+        TextView textView = (TextView) signInButton.getChildAt(0);
+        textView.setText("Sign in with berkeley.edu");
 
     }
 
@@ -84,14 +90,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                startActivity(intent);
-            }
-        });
-
+            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+            startActivity(intent);
     }
 
     public boolean isServicesOK(){
@@ -113,32 +113,52 @@ public class MainActivity extends AppCompatActivity {
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast toast= Toast.makeText(getApplicationContext(),"Authentication failed",Toast. LENGTH_SHORT);
-                            toast.show();
+        String email = acct.getEmail();
+        String[] split = email.split("@");
+        String domain = split[1]; //This Will Give You The Domain After '@'
+        if(!(domain.equals("berkeley.edu"))) {
+            mGoogleSignInClient.signOut();
+            Toast toast= Toast.makeText(getApplicationContext(),"Use berkeley.edu email - app only for Cal students",Toast. LENGTH_SHORT);
+            toast.show();
+            updateUI(null);
+        } else {
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithCredential:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithCredential:failure", task.getException());
+                                Toast toast= Toast.makeText(getApplicationContext(),"Authentication failed",Toast. LENGTH_SHORT);
+                                toast.show();
+                            }
+                            updateUI(null);
+                            // ...
                         }
-                        updateUI(null);
-                        // ...
-                    }
-                });
+                    });
+        }
+
+
     }
 
     private void updateUI(FirebaseUser user) {
-        if(isServicesOK()){
-            init();
+        if (user == null) {
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signIn();
+                }
+            });
+        } else {
+            if(isServicesOK()){
+                init();
+            }
         }
     }
 
