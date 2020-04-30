@@ -13,7 +13,16 @@
           "package_name": "com.example.bearbikes"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "55734871775-rbqhtgamea7ujgqa8dvorm27hu78s1c4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bearbikes",
+            "certificate_hash": "22306d7a9ef6f7e6b38464942ebf515c14f66058"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCbMO-9IDbclq5dVSo53mmxrAfIdIpw_Zc"
