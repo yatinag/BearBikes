@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "55734871775",
+    "firebase_url": "https://bear-bikes.firebaseio.com",
+    "project_id": "bear-bikes",
+    "storage_bucket": "bear-bikes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55734871775:android:40eddb737fd450e72e6b6a",
+        "android_client_info": {
+          "package_name": "com.example.bearbikes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55734871775-6oqvo2nsl9cellijmu1n1ni9uo1ml837.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bearbikes",
+            "certificate_hash": "22306d7a9ef6f7e6b38464942ebf515c14f66058"
+          }
+        },
+        {
+          "client_id": "55734871775-psaqshnec2clos9cp3cpsdn1h9dhvsp2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbMO-9IDbclq5dVSo53mmxrAfIdIpw_Zc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55734871775-psaqshnec2clos9cp3cpsdn1h9dhvsp2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
