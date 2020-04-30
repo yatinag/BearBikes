@@ -53,6 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1212;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 1100;
 
     //Map data
     private Boolean mLocationPermissionGranted = false;
@@ -104,14 +105,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for QR codes
+                if (ContextCompat.checkSelfPermission(MapActivity.this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MapActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+                } else {
+                    Intent intent = new Intent(MapActivity.this, QrCodeScannerActivity.class);
                     startActivityForResult(intent, 0);
-                } catch (Exception e) {
-                    Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
-                    Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
-                    startActivity(marketIntent);
                 }
             }
         });
@@ -123,6 +123,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void addMapMarkers(){
@@ -288,6 +293,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     mLocationPermissionGranted = true;
                     Log.d(TAG, "onRequestPermissionsResult: permission granted");
                     initMap();
+                    return;
+                }
+            }
+            case CAMERA_PERMISSION_REQUEST_CODE:{
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(this, QrCodeScannerActivity.class);
+                    startActivityForResult(intent, 0);
+                } else {
+                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -311,14 +325,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (requestCode == 0) {
 
             if (resultCode == RESULT_OK) {
-                String contents = data.getStringExtra("SCAN_RESULT");
+                String contents = "Selected Bike Id: " + data.getStringExtra("bike_id");
                 System.out.println(contents);
                 selBike.setText(contents);
             }
             if(resultCode == RESULT_CANCELED){
-                //handle cancel
+                Toast.makeText(MapActivity.this, "Couldn't find bike, try again!", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }
