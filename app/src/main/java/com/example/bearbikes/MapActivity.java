@@ -7,10 +7,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -73,7 +75,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private final double BERKELEY_CENTER_LATITUDE = 37.871749;
     private final double BERKELEY_CENTER_LONGITUDE = -122.259501;
 
-    Button logoutBtn;
+    Button logoutBtn, scanBtn;
+    TextView selBike;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -96,6 +99,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
 
         logoutBtn = findViewById(R.id.logoutBtn);
+        scanBtn = findViewById(R.id.scanBtn);
+        selBike = findViewById(R.id.selBike);
+        scanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for QR codes
+                    startActivityForResult(intent, 0);
+                } catch (Exception e) {
+                    Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
+                    startActivity(marketIntent);
+                }
+            }
+        });
+
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,6 +303,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         finish();
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+                System.out.println(contents);
+                selBike.setText(contents);
+            }
+            if(resultCode == RESULT_CANCELED){
+                //handle cancel
+            }
+        }
     }
 
 }
